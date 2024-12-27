@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="614.0" prefWidth="997.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fotosappsaa.controller.AppController">
+    <left>
+        <VBox alignment="TOP_LEFT" spacing="10" style="-fx-padding: 10;">
+         <Button fx:id="btSelectImage" mnemonicParsing="false" onAction="#selectImage" text="Seleccionar imagen" />
+         <Button fx:id="btBatch" mnemonicParsing="false" onAction="#selectFolder" text="Lote de imagenes" />
+         <Separator prefWidth="200.0" />
+            <Label text="Seleccciona los Filtros:" />
+         <CheckBox fx:id="cbGrey" mnemonicParsing="false" text="Escala de grises" />
+         <CheckBox fx:id="cbBright" mnemonicParsing="false" text="Brillo" />
+         <CheckBox fx:id="cbInverted" mnemonicParsing="false" text="Inversión de color" />
+         <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Button fx:id="btProcess" mnemonicParsing="false" onAction="#start" text="Procesar">
+                  <HBox.margin>
+                     <Insets right="20.0" top="20.0" />
+                  </HBox.margin>
+               </Button>
+               <Button fx:id="btCancel" mnemonicParsing="false" onAction="#cancel" text="Cancelar" textFill="#e14949">
+                  <HBox.margin>
+                     <Insets top="20.0" />
+                  </HBox.margin>
+               </Button>
+            </children>
+         </HBox>
+        </VBox>
+    </left>
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Elige la ruta de guardado: " />
+            <TextField fx:id="tfImagePath" prefHeight="30.0" prefWidth="320.0" />
+            <Button fx:id="btNewPath" mnemonicParsing="false" onAction="#browsePath" text="Seleccionar" />
+        </items>
+      </ToolBar>
+   </top>
+   <center>
+      <TabPane fx:id="tpImages" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
