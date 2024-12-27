@@ -109,7 +109,15 @@ public class AppController {
     }
 
     private void sendSelection() {
-        TaskManager taskManager = new TaskManager(image, getSelectedFilters());
+        if (!image.equals(null)) {
+            TaskManager taskManager = new TaskManager(image, getSelectedFilters());
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se ha seleccionado ninguna imagen");
+            alert.showAndWait();
+        }
+
     }
 
     //falta transformar el archivo en imagen
@@ -119,14 +127,21 @@ public class AppController {
              FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/fotosappsaa/image.fxml"));
              VBox content = loader.load();
 
-            String filename = imagePath.substring(imagePath.lastIndexOf("\\") + 1);
-            Tab newTab = new Tab(filename);
+             if(imagePath == null) {
+                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                 alert.setTitle("Error");
+                 alert.setHeaderText("No se ha seleccionado ninguna imagen");
+                 alert.showAndWait();
+                 return;
+             } else {
+                 String filename = imagePath.substring(imagePath.lastIndexOf("\\") + 1);
+                 Tab newTab = new Tab(filename);
 
-            newTab.setContent(content);
-            tpImages.getTabs().add(newTab);
+                 newTab.setContent(content);
+                 tpImages.getTabs().add(newTab);
 
-            sendSelection();
-
+                 sendSelection();
+             }
 
          } catch (IOException e) {
              e.printStackTrace();
