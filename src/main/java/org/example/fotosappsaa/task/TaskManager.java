@@ -9,6 +9,7 @@ import org.example.fotosappsaa.filters.InvertedFilter;
 import java.awt.*;
 import java.util.List;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public class TaskManager extends Task<BufferedImage> {
 
@@ -39,24 +40,22 @@ public class TaskManager extends Task<BufferedImage> {
             for (int x = 0; x < image.getWidth(); x++) {
                 Color color = new Color(image.getRGB(x, y));
                 for (String selectedFilter : this.selectedFilters) {
-                    switch (selectedFilter) {
-                        case "GREYSCALE":
-                            color = GreyscaleFilter.filter(color);
-                            break;
-                        case "BRIGHT":
-                            color = BrightFilter.filter(color);
-                            break;
-                        case "INVERTED":
-                            color = InvertedFilter.filter(color);
-                            break;
-                        default:
-                            throw new IllegalArgumentException("Filtro no reconocido: " + selectedFilter);
+                    if (selectedFilter.equals("GREYSCALE")) {
+                        color = GreyscaleFilter.filter(color);
+                    } else if (selectedFilter.equals("BRIGHT")) {
+                        color = BrightFilter.filter(color);
+                    } else if (selectedFilter.equals("INVERTED")) {
+                        color = InvertedFilter.filter(color);
                     }
                 }
-                image.setRGB(x, y, color.getRGB());
-                totalProcessed++;
+                if (color != null) {
+                    image.setRGB(x, y, color.getRGB());
+                    totalProcessedPixels++;
+                }
             }
-            updateProgress(totalProcessed, imageSize);
+                updateProgress(totalProcessed, imageSize);
+                totalProcessed = totalProcessedPixels / (float) imageSize;
+
         }
         updateMessage("Filtro aplicado");
 

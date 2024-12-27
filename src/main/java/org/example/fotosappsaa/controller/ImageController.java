@@ -1,6 +1,6 @@
 package org.example.fotosappsaa.controller;
 
-import javafx.concurrent.Task;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -9,11 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.embed.swing.SwingFXUtils;
 import org.example.fotosappsaa.task.TaskManager;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ImageController {
 
@@ -27,10 +29,21 @@ public class ImageController {
     private Button btProcess;
     @FXML
     private Button btCancel;
+    @FXML
+    private ImageView ivOriginal;
+    @FXML
+    private ImageView ivProcessed;
+
     private BufferedImage image;
 
     public ImageController() {
 
+    }
+
+    public void setImage(BufferedImage image) {
+        this.image = image;
+        Image fxImage = SwingFXUtils.toFXImage(image, null);
+        ivOriginal.setImage(fxImage);
     }
 
     private List<String> getSelectedFilters() {
@@ -54,6 +67,7 @@ public class ImageController {
 
             TaskManager taskManager = new TaskManager(image, getSelectedFilters());
             taskManager.call();
+
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -4,6 +4,7 @@ module org.example.fotosappsaa {
 
     requires com.dlsc.formsfx;
     requires java.desktop;
+    requires javafx.swing;
 
     opens org.example.fotosappsaa to javafx.fxml;
     exports org.example.fotosappsaa;

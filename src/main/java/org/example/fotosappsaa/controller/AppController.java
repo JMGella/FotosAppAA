@@ -111,17 +111,21 @@ public class AppController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/fotosappsaa/image.fxml"));
         VBox content = loader.load();
 
-        if (filename == null) {
+        if (image == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("No se ha seleccionado ninguna imagen");
             alert.showAndWait();
             return;
         } else {
+            ImageController controller = loader.getController();
+            controller.setImage(image);
+
             Tab newTab = new Tab(filename);
 
             newTab.setContent(content);
             tpImages.getTabs().add(newTab);
+
 
         }
 

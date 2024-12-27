@@ -8,24 +8,21 @@ public class BrightFilter {
 
 
     public static Color filter(Color color) {
+        int brightnessFactor = 50;
         int red = color.getRed();
         int green = color.getGreen();
         int blue = color.getBlue();
 
-        int newRed = red + 50;
-        int newGreen = green + 50;
-        int newBlue = blue + 50;
+        int newRed = red + brightnessFactor;
+        int newGreen = green + brightnessFactor;
+        int newBlue = blue + brightnessFactor;
 
-        if (newRed > 255) {
-            newRed = 255;
-        }
-        if (newGreen > 255) {
-            newGreen = 255;
-        }
-        if (newBlue > 255) {
-            newBlue = 255;
-        }
+        red = Math.min(255, red + brightnessFactor);
+        green = Math.min(255, green + brightnessFactor);
+        blue = Math.min(255, blue + brightnessFactor);
 
-        return new Color(newRed, newGreen, newBlue);
+        Color newColor = new Color(red, green, blue);
+
+        return newColor;
     }
 }
