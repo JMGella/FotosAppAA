@@ -39,7 +39,7 @@
             <AnchorPane>
                <children>
                   <ImageView fx:id="ivOriginal" fitHeight="150.0" fitWidth="200.0" layoutX="53.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="ivProccessed" fitHeight="150.0" fitWidth="200.0" layoutX="37.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="ivProcessed" fitHeight="150.0" fitWidth="200.0" layoutX="37.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true" />
                </children></AnchorPane>
          </items>
       </SplitPane>

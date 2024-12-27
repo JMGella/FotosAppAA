@@ -42,8 +42,8 @@ public class ImageController {
 
     public void setImage(BufferedImage image) {
         this.image = image;
-        Image fxImage = SwingFXUtils.toFXImage(image, null);
-        ivOriginal.setImage(fxImage);
+        Image originalimage = SwingFXUtils.toFXImage(image, null);
+        ivOriginal.setImage(originalimage);
     }
 
     private List<String> getSelectedFilters() {
@@ -66,7 +66,9 @@ public class ImageController {
         if (image != null) {
 
             TaskManager taskManager = new TaskManager(image, getSelectedFilters());
-            taskManager.call();
+            BufferedImage proceesedBufferedImage = taskManager.call();
+            Image processedImage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
+            ivProcessed.setImage(processedImage);
 
 
         } else {
