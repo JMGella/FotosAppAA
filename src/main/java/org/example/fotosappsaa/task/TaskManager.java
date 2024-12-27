@@ -8,7 +8,6 @@ import org.example.fotosappsaa.filters.InvertedFilter;
 
 import java.awt.*;
 import java.util.List;
-import java.io.BufferedInputStream;
 import java.awt.image.BufferedImage;
 
 public class TaskManager extends Task<BufferedImage> {
@@ -26,46 +25,41 @@ public class TaskManager extends Task<BufferedImage> {
 
 
     @Override
-    protected BufferedImage call() throws Exception {
+    public BufferedImage call() throws Exception {
+        if (image == null) {
+            throw new IllegalArgumentException("No se ha proporcionado ninguna imagen para procesar.");
+        }
         int totalProcessedPixels = 0;
-        updateMessage("Procesando imagen...");
+        updateMessage("Aplicando filtro...");
         int imageSize = image.getHeight() * image.getWidth();
         float totalProcessed = 0f;
 
-        for (int y =0; y < image.getHeight(); y++) {
+        for (int y = 0; y < image.getHeight(); y++) {
             Thread.sleep(10);
             for (int x = 0; x < image.getWidth(); x++) {
                 Color color = new Color(image.getRGB(x, y));
-                for (String selectedFilter: this.selectedFilters){
-                    if (selectedFilter.equals("GREYSCALE")){
-                        color = GreyscaleFilter.filter(color);
+                for (String selectedFilter : this.selectedFilters) {
+                    switch (selectedFilter) {
+                        case "GREYSCALE":
+                            color = GreyscaleFilter.filter(color);
+                            break;
+                        case "BRIGHT":
+                            color = BrightFilter.filter(color);
+                            break;
+                        case "INVERTED":
+                            color = InvertedFilter.filter(color);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Filtro no reconocido: " + selectedFilter);
                     }
-                    if (selectedFilter.equals("BRIGHT")){
-                        color = BrightFilter.filter(color);
-                    }
-                    if (selectedFilter.equals("INVERTED")){
-                        color = InvertedFilter.filter(color);
-                    }
-
                 }
-
-
-
-
-//
-//                if (isCancelled()) {
-//                    updateMessage("Proceso cancelado");
-//                    return null;
-//                }
-                totalProcessedPixels++;
-                updateProgress(totalProcessedPixels, imageSize);
-                totalProcessed = totalProcessedPixels / (float) imageSize;
-                updateMessage("Procesando imagen... " + (int) ((totalProcessed / imageSize) * 100) + "%");
+                image.setRGB(x, y, color.getRGB());
+                totalProcessed++;
             }
+            updateProgress(totalProcessed, imageSize);
         }
+        updateMessage("Filtro aplicado");
 
-        updateProgress(totalProcessedPixels, imageSize);
-        updateMessage("Proceso completado");
         return image;
     }
 }

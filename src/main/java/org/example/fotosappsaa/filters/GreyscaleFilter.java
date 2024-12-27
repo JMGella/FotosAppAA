@@ -1,6 +1,7 @@
 package org.example.fotosappsaa.filters;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GreyscaleFilter {
     public static Color filter(Color color) {
