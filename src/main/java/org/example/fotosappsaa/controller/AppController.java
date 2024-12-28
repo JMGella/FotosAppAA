@@ -121,6 +121,7 @@ public class AppController {
             ImageController controller = loader.getController();
             controller.setImage(image);
 
+
             Tab newTab = new Tab(filename);
 
             newTab.setContent(content);
