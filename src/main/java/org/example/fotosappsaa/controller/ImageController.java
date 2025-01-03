@@ -4,10 +4,7 @@ package org.example.fotosappsaa.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Tab;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.embed.swing.SwingFXUtils;
@@ -46,6 +43,10 @@ public class ImageController {
     private Button btSave;
     @FXML
     private Text txPath;
+    @FXML
+    private Label lbStatus;
+    @FXML
+    private ProgressBar pbProgress;
 
     private BufferedImage image;
 
@@ -88,9 +89,29 @@ public class ImageController {
     private void sendSelection() throws Exception {
 
             TaskManager taskManager = new TaskManager(image, getSelectedFilters());
-            proceesedBufferedImage = taskManager.call();
+            pbProgress.progressProperty().bind(taskManager.progressProperty());
+            pbProgress.setVisible(false);
+            lbStatus.textProperty().bind(taskManager.messageProperty());
+
+        taskManager.setOnRunning(event -> {
+            pbProgress.setVisible(true);
+        });
+
+
+        taskManager.setOnSucceeded(event -> {
+            BufferedImage proceesedBufferedImage = taskManager.getValue();
             Image processedImage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
             ivProcessed.setImage(processedImage);
+            pbProgress.progressProperty().unbind();
+            pbProgress.setProgress(0);
+        });
+        taskManager.setOnFailed(event -> {
+            lbStatus.setText("Error al procesar la imagen.");
+            pbProgress.progressProperty().unbind();
+            pbProgress.setProgress(0);
+        });
+
+        new Thread(taskManager).start();
 
     }
 

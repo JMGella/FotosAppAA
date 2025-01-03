@@ -26,18 +26,23 @@ public class TaskManager extends Task<BufferedImage> {
 
 
     @Override
-    public BufferedImage call() throws Exception {
+    protected BufferedImage call() throws Exception {
         if (image == null) {
             throw new IllegalArgumentException("No se ha proporcionado ninguna imagen para procesar.");
         }
         int totalProcessedPixels = 0;
         updateMessage("Aplicando filtro...");
         int imageSize = image.getHeight() * image.getWidth();
-        float totalProcessed = 0f;
+        float totalProcessed;
 
         for (int y = 0; y < image.getHeight(); y++) {
             Thread.sleep(10);
             for (int x = 0; x < image.getWidth(); x++) {
+                if (isCancelled()){
+                    updateMessage("Proceso cancelado");
+                    return null;
+                    }
+
                 Color color = new Color(image.getRGB(x, y));
                 for (String selectedFilter : this.selectedFilters) {
                     if (selectedFilter.equals("GREYSCALE")) {
@@ -50,11 +55,12 @@ public class TaskManager extends Task<BufferedImage> {
                 }
                 if (color != null) {
                     image.setRGB(x, y, color.getRGB());
-                    totalProcessedPixels++;
-                }
+
+                    }
+                totalProcessedPixels++;
             }
-                updateProgress(totalProcessed, imageSize);
-                totalProcessed = totalProcessedPixels / (float) imageSize;
+
+            updateProgress(totalProcessedPixels, imageSize);
 
         }
         updateMessage("Filtro aplicado");
