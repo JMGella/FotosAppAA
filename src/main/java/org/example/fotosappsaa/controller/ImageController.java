@@ -54,6 +54,8 @@ public class ImageController {
 
     private String savingPath = "C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS";
 
+    private TaskManager taskManager;
+
 
 
 
@@ -63,7 +65,12 @@ public class ImageController {
 
     public void setImage(BufferedImage image) {
         this.image = image;
-        Image originalimage = SwingFXUtils.toFXImage(image, null);
+        Image originalimage;
+        if (proceesedBufferedImage != null) {
+             originalimage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
+        } else {
+             originalimage = SwingFXUtils.toFXImage(image, null);
+        }
         ivOriginal.setImage(originalimage);
         txPath.setText(savingPath.substring(savingPath.lastIndexOf("/") + 1));
     }
@@ -87,15 +94,10 @@ public class ImageController {
     }
 
     private void sendSelection() throws Exception {
-
-            TaskManager taskManager = new TaskManager(image, getSelectedFilters());
+            setImage(image);
+            taskManager = new TaskManager(image, getSelectedFilters());
             pbProgress.progressProperty().bind(taskManager.progressProperty());
-            pbProgress.setVisible(false);
             lbStatus.textProperty().bind(taskManager.messageProperty());
-
-        taskManager.setOnRunning(event -> {
-            pbProgress.setVisible(true);
-        });
 
 
         taskManager.setOnSucceeded(event -> {
@@ -153,6 +155,18 @@ public class ImageController {
 
     }
 
-    public void cancel(ActionEvent actionEvent) {
+
+    public void cancelTask(ActionEvent actionEvent) {
+        if(taskManager != null) {
+            taskManager.cancel();
+            lbStatus.textProperty().unbind();
+            lbStatus.setText("Proceso cancelado");
+            pbProgress.progressProperty().unbind();
+            pbProgress.setProgress(0);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Cancelado");
+            alert.setHeaderText("Se ha cancelado el proceso.");
+            alert.showAndWait();
+        }
     }
 }

@@ -36,12 +36,10 @@ public class TaskManager extends Task<BufferedImage> {
         float totalProcessed;
 
         for (int y = 0; y < image.getHeight(); y++) {
+
             Thread.sleep(10);
+
             for (int x = 0; x < image.getWidth(); x++) {
-                if (isCancelled()){
-                    updateMessage("Proceso cancelado");
-                    return null;
-                    }
 
                 Color color = new Color(image.getRGB(x, y));
                 for (String selectedFilter : this.selectedFilters) {

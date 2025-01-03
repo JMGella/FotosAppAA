@@ -30,7 +30,7 @@
                               <Insets right="20.0" top="20.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="btCancel" mnemonicParsing="false" onAction="#cancel" text="Cancelar" textFill="#e14949">
+                        <Button fx:id="btCancel" mnemonicParsing="false" onAction="#cancelTask" text="Cancelar" textFill="#e14949">
                            <HBox.margin>
                               <Insets top="20.0" />
                            </HBox.margin>
@@ -56,7 +56,7 @@
                   <ImageView fx:id="ivProcessed" fitHeight="236.0" fitWidth="315.0" layoutX="30.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
                   <Separator layoutX="342.0" layoutY="-7.0" orientation="VERTICAL" prefHeight="613.0" prefWidth="0.0" />
                   <Label fx:id="lbStatus" layoutX="377.0" layoutY="42.0" prefHeight="25.0" prefWidth="172.0" />
-                  <ProgressBar fx:id="pbProgress" disable="true" layoutX="377.0" layoutY="78.0" prefHeight="25.0" prefWidth="263.0" progress="0.0" />
+                  <ProgressBar fx:id="pbProgress" layoutX="377.0" layoutY="78.0" prefHeight="25.0" prefWidth="263.0" progress="0.0" />
                </children></AnchorPane>
          </items>
       </SplitPane>
