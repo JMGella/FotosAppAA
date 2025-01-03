@@ -53,6 +53,8 @@ public class AppController {
     private void selectFolder(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Seleccionar Carpeta de Imágenes");
+        File defaultDirectory = new File("C:/Users/javie/IdeaProjects/FotosAppsAA/CARPETA DE FOTOS");
+        directoryChooser.setInitialDirectory(defaultDirectory);
         File selectedFolder = directoryChooser.showDialog(new Stage());
         File[] files = selectedFolder.listFiles();
         List<BufferedImage> images = new ArrayList<>();
