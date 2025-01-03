@@ -72,6 +72,7 @@ public class ImageController {
              originalimage = SwingFXUtils.toFXImage(image, null);
         }
         ivOriginal.setImage(originalimage);
+        pbProgress.setOpacity(0);
         txPath.setText(savingPath.substring(savingPath.lastIndexOf("/") + 1));
     }
 
@@ -96,6 +97,7 @@ public class ImageController {
     private void sendSelection() throws Exception {
             setImage(image);
             taskManager = new TaskManager(image, getSelectedFilters());
+            pbProgress.setOpacity(100);
             pbProgress.progressProperty().bind(taskManager.progressProperty());
             lbStatus.textProperty().bind(taskManager.messageProperty());
 

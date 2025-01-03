@@ -125,10 +125,9 @@ public class AppController {
 
 
             Tab newTab = new Tab(filename);
-
             newTab.setContent(content);
             tpImages.getTabs().add(newTab);
-
+            tpImages.getSelectionModel().select(newTab);
 
         }
 
