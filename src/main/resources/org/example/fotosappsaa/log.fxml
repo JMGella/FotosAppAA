@@ -4,13 +4,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fotosappsaa.controller.LogController">
    <children>
-      <TableView prefHeight="624.0" prefWidth="900.0">
+      <TableView fx:id="tvLog" prefHeight="624.0" prefWidth="900.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="tcImage" prefWidth="190.0" text="Imagen" />
+            <TableColumn fx:id="tcFilters" prefWidth="315.0" text="Filtros aplicados" />
+            <TableColumn fx:id="tcTimestamp" prefWidth="211.0" text="Fecha y hora" />
         </columns>
       </TableView>
    </children>

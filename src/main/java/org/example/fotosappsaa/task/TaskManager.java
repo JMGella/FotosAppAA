@@ -6,15 +6,20 @@ import org.example.fotosappsaa.filters.BrightFilter;
 import org.example.fotosappsaa.filters.GreyscaleFilter;
 import org.example.fotosappsaa.filters.InvertedFilter;
 
+
 import java.awt.*;
+
 import java.util.List;
 import java.awt.image.BufferedImage;
-import java.util.Objects;
+
 
 public class TaskManager extends Task<BufferedImage> {
 
     private BufferedImage image;
     private List<String> selectedFilters;
+
+
+
 
     public TaskManager(BufferedImage image, List<String> selectedFilters) {
         this.image = image;
@@ -33,7 +38,7 @@ public class TaskManager extends Task<BufferedImage> {
         int totalProcessedPixels = 0;
         updateMessage("Aplicando filtro...");
         int imageSize = image.getHeight() * image.getWidth();
-        float totalProcessed;
+
 
         for (int y = 0; y < image.getHeight(); y++) {
 
@@ -61,8 +66,14 @@ public class TaskManager extends Task<BufferedImage> {
             updateProgress(totalProcessedPixels, imageSize);
 
         }
+
+
         updateMessage("Filtro aplicado");
 
         return image;
     }
+
+
+
+
 }

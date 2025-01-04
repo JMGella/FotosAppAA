@@ -11,12 +11,15 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.example.fotosappsaa.log.LogEntry;
+import org.example.fotosappsaa.log.LogManager;
 import org.example.fotosappsaa.task.TaskManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -55,6 +58,11 @@ public class ImageController {
     private String savingPath = "C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS";
 
     private TaskManager taskManager;
+
+    private String filename="";
+
+    private List<LogEntry> logEntries = new ArrayList<>();
+
 
 
 
@@ -108,7 +116,11 @@ public class ImageController {
             ivProcessed.setImage(processedImage);
             pbProgress.progressProperty().unbind();
             pbProgress.setProgress(0);
+            LocalDateTime timestamp = LocalDateTime.now();
+            LogEntry logEntry = new LogEntry( filename, getSelectedFilters(), timestamp.toString());
+            LogManager.getInstance().addLogEntry(logEntry);
         });
+
         taskManager.setOnFailed(event -> {
             lbStatus.setText("Error al procesar la imagen.");
             pbProgress.progressProperty().unbind();
@@ -116,6 +128,7 @@ public class ImageController {
         });
 
         new Thread(taskManager).start();
+
 
     }
 
@@ -141,6 +154,9 @@ public class ImageController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Seleccionar Carpeta de Guardado");
         File selectedFolder = directoryChooser.showDialog(new Stage());
+        if (selectedFolder == null) {
+            return;
+        }
         savingPath = selectedFolder.getAbsolutePath();
         txPath.setText(savingPath.substring(savingPath.lastIndexOf("\\") + 1));
     }
@@ -171,4 +187,13 @@ public class ImageController {
             alert.showAndWait();
         }
     }
+
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+
+
+
 }

@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 
 import javafx.event.ActionEvent;
+import org.example.fotosappsaa.log.LogEntry;
+import org.example.fotosappsaa.log.LogManager;
 
 
 import javax.imageio.ImageIO;
@@ -30,9 +32,13 @@ public class AppController {
 
     private boolean logIsOpen;
 
+
+
     public AppController() {
 
     }
+
+
 
 
     @FXML
@@ -43,6 +49,9 @@ public class AppController {
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
         );
         File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile == null) {
+            return;
+        }
         String imagePath = selectedFile.getAbsolutePath();
         String filename = imagePath.substring(imagePath.lastIndexOf("\\") + 1);
         image = ImageIO.read(selectedFile);
@@ -57,6 +66,9 @@ public class AppController {
         File defaultDirectory = new File("C:/Users/javie/IdeaProjects/FotosAppsAA/CARPETA DE FOTOS");
         directoryChooser.setInitialDirectory(defaultDirectory);
         File selectedFolder = directoryChooser.showDialog(new Stage());
+        if (selectedFolder == null) {
+            return;
+        }
         File[] files = selectedFolder.listFiles();
         List<BufferedImage> images = new ArrayList<>();
         List<String> filenames = new ArrayList<>();
@@ -129,6 +141,7 @@ public class AppController {
             newTab.setContent(content);
             tpImages.getTabs().add(newTab);
             tpImages.getSelectionModel().select(newTab);
+            controller.setFilename(filename);
 
         }
     }
@@ -142,6 +155,12 @@ public class AppController {
             tpImages.getTabs().add(logTab);
             tpImages.getSelectionModel().select(logTab);
             logIsOpen = true;
+
+
+
+
+            //arreglar poder reabrir el log
+
         } else {
             for (Tab tab : tpImages.getTabs()) {
                 if (tab.getText().equals("Log")) {
@@ -151,6 +170,8 @@ public class AppController {
         }
 
     }
+
+
 
 }
 
