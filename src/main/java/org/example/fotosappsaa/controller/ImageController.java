@@ -53,10 +53,9 @@ public class ImageController {
 
 
     private BufferedImage image;
-
     private BufferedImage proceesedBufferedImage;
 
-    private String savingPath = "C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS";
+    private String savingPath = "C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS/";
 
     private TaskManager taskManager;
 
@@ -82,7 +81,8 @@ public class ImageController {
         }
         ivOriginal.setImage(originalimage);
         pbProgress.setOpacity(0);
-        txPath.setText(savingPath.substring(savingPath.lastIndexOf("/") + 1));
+        txPath.setText(savingPath.substring(savingPath.indexOf("/") + 1));
+
     }
 
 
@@ -112,7 +112,7 @@ public class ImageController {
 
 
         taskManager.setOnSucceeded(event -> {
-            BufferedImage proceesedBufferedImage = taskManager.getValue();
+            proceesedBufferedImage = taskManager.getValue();
             Image processedImage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
             ivProcessed.setImage(processedImage);
             pbProgress.progressProperty().unbind();
@@ -150,6 +150,7 @@ public class ImageController {
                 ImageIO.write(proceesedBufferedImage, "jpg", file);
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println("Error al guardar la imagen");
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
