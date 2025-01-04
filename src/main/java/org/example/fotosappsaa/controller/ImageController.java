@@ -19,6 +19,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,9 @@ public class ImageController {
         }
         ivOriginal.setImage(originalimage);
         pbProgress.setOpacity(0);
-        txPath.setText(savingPath.substring(savingPath.indexOf("/") + 1));
+        Path path = Paths.get(savingPath);
+        String folderName = path.getFileName().toString();
+        txPath.setText(folderName);
 
     }
 
