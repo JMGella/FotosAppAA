@@ -51,6 +51,7 @@ public class ImageController {
     @FXML
     private ProgressBar pbProgress;
 
+
     private BufferedImage image;
 
     private BufferedImage proceesedBufferedImage;
@@ -129,6 +130,10 @@ public class ImageController {
             lbStatus.setText("Error al procesar la imagen.");
             pbProgress.progressProperty().unbind();
             pbProgress.setProgress(0);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error al procesar la imagen.");
+            alert.showAndWait();
         });
 
         new Thread(taskManager).start();
