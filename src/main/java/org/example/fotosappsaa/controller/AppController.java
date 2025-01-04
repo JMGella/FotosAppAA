@@ -28,6 +28,7 @@ public class AppController {
     private TabPane tpImages;
     private BufferedImage image;
 
+    private boolean logIsOpen;
 
     public AppController() {
 
@@ -130,10 +131,29 @@ public class AppController {
             tpImages.getSelectionModel().select(newTab);
 
         }
+    }
 
+    public void openLog() throws IOException {
+        Tab logTab = new Tab("Log");
+        if (!logIsOpen) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/fotosappsaa/log.fxml"));
+            VBox content = loader.load();
+            logTab.setContent(content);
+            tpImages.getTabs().add(logTab);
+            tpImages.getSelectionModel().select(logTab);
+            logIsOpen = true;
+        } else {
+            for (Tab tab : tpImages.getTabs()) {
+                if (tab.getText().equals("Log")) {
+                    tpImages.getSelectionModel().select(tab);
+                }
+            }
+        }
 
     }
+
 }
+
 
 
 

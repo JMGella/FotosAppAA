@@ -8,13 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="614.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fotosappsaa.controller.AppController">
+<BorderPane prefHeight="614.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fotosappsaa.controller.AppController">
     <left>
         <VBox alignment="TOP_LEFT" spacing="10" style="-fx-padding: 10;">
          <Button fx:id="btSelectImage" mnemonicParsing="false" onAction="#selectImage" text="Seleccionar imagen" />
          <Separator prefWidth="200.0" />
          <Button fx:id="btBatch" mnemonicParsing="false" onAction="#selectFolder" text="Lote de imagenes" />
          <HBox prefHeight="100.0" prefWidth="200.0" />
+         <Button fx:id="btLogView" mnemonicParsing="false" onAction="#openLog" text="Historial" />
         </VBox>
     </left>
    <top>
