@@ -16,6 +16,7 @@ import org.example.fotosappsaa.log.LogManager;
 
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class AppController {
     private BufferedImage image;
 
     private boolean logIsOpen;
+    private LogController logController;
 
 
 
@@ -147,33 +149,36 @@ public class AppController {
     }
 
     public void openLog() throws IOException {
-        Tab logTab = new Tab("Log");
+
         if (!logIsOpen) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/fotosappsaa/log.fxml"));
+            Tab logTab = new Tab("Log");
             VBox content = loader.load();
+            logController = loader.getController();
             logTab.setContent(content);
             tpImages.getTabs().add(logTab);
             tpImages.getSelectionModel().select(logTab);
             logIsOpen = true;
-
-
-
-
-            //arreglar poder reabrir el log
+            logTab.setOnClosed(event -> logIsOpen = false);
 
         } else {
+
             for (Tab tab : tpImages.getTabs()) {
                 if (tab.getText().equals("Log")) {
                     tpImages.getSelectionModel().select(tab);
                 }
+                logController.updateLog();
             }
         }
+    }
+
+
 
     }
 
 
 
-}
+
 
 
 

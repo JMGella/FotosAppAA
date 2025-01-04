@@ -12,8 +12,9 @@ public class LogEntry {
 
     public LogEntry(String inputFilename, List<String> filters, String timestamp) {
         this.inputFilename = inputFilename;
+        this.filters = "";
         for (String filter : filters) {
-            this.filters += filter + ", ";
+            this.filters += filter + " ";
         }
 
         this.timestamp = timestamp;

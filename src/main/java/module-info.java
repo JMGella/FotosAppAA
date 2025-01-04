@@ -10,4 +10,5 @@ module org.example.fotosappsaa {
     exports org.example.fotosappsaa;
     exports org.example.fotosappsaa.controller;
     opens org.example.fotosappsaa.controller to javafx.fxml;
+    opens org.example.fotosappsaa.log to javafx.base;
 }

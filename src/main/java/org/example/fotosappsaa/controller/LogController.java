@@ -1,8 +1,12 @@
 package org.example.fotosappsaa.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.fotosappsaa.log.LogEntry;
 import org.example.fotosappsaa.log.LogManager;
 
@@ -14,13 +18,14 @@ public class LogController {
     @FXML
     private TableView<LogEntry> tvLog;
     @FXML
-    private TableColumn tcImage;
+    private TableColumn<LogEntry, String> tcImage;
     @FXML
-    private TableColumn tcFilters;
+    private TableColumn<LogEntry, String> tcFilters;
     @FXML
-    private TableColumn tcTimestamp;
+    private TableColumn<LogEntry, String> tcTimestamp;
 
-    private List<LogEntry> logEntries = new ArrayList<>();
+    private ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
+
 
 
 
@@ -30,20 +35,19 @@ public class LogController {
 @FXML
     public void initialize(){
         LogManager logManager = LogManager.getInstance();
-        logEntries = logManager.getLogEntries();
+        logEntries.addAll(logManager.getLogEntries());
+        tvLog.setItems(logEntries);
         for (LogEntry logEntry : logEntries) {
-            System.out.print(logEntry.getInputFilename());  //aqui funciona en consola
-            System.out.print(logEntry.getFilters());
-            System.out.print(logEntry.getTimestamp());
+            tcImage.setCellValueFactory(new PropertyValueFactory<>("inputFilename"));
+            tcFilters.setCellValueFactory(new PropertyValueFactory<>("filters"));
+            tcTimestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
         }
-
     }
 
     public void updateLog(){
-        tvLog.getItems().clear();
-        for (LogEntry logEntry : logEntries) {
-            tvLog.getItems().add(logEntry);
-        }
+       LogManager logManager = LogManager.getInstance();
+       logEntries.setAll(logManager.getLogEntries());
+        tvLog.refresh();
     }
 
 
