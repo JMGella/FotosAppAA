@@ -119,6 +119,10 @@ public class ImageController {
             LocalDateTime timestamp = LocalDateTime.now();
             LogEntry logEntry = new LogEntry( filename, getSelectedFilters(), timestamp.toString());
             LogManager.getInstance().addLogEntry(logEntry);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Procesado");
+            alert.setHeaderText("Imagen procesada con éxito");
+            alert.showAndWait();
         });
 
         taskManager.setOnFailed(event -> {
