@@ -2,8 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-FOTOS_PROCESADAS
-CARPETA_DE_FOTOS
+FOTOS PROCESADAS
+CARPETA DE FOTOS
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -38,4 +38,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
-/FOTOS_PROCESADAS/
+/FOTOS PROCESADAS/
