@@ -96,18 +96,21 @@ public class ImageController {
 
         if (cbGrey.isSelected()) {
             selectedOptions.add("GREYSCALE");
+
         }
         if (cbBright.isSelected()) {
             selectedOptions.add("BRIGHT");
+
         }
         if (cbInverted.isSelected()) {
             selectedOptions.add("INVERTED");
-        }
 
+        }
         return selectedOptions;
     }
 
     private void sendSelection() throws Exception {
+
             setImage(image);
             taskManager = new TaskManager(image, getSelectedFilters());
             pbProgress.setOpacity(100);
@@ -130,6 +133,15 @@ public class ImageController {
             alert.showAndWait();
         });
 
+        taskManager.setOnCancelled(event -> {
+            lbStatus.textProperty().unbind();
+            lbStatus.setText("Proceso cancelado");
+            pbProgress.progressProperty().unbind();
+            pbProgress.setProgress(0);
+
+        }
+        );
+
         taskManager.setOnFailed(event -> {
             lbStatus.setText("Error al procesar la imagen.");
             pbProgress.progressProperty().unbind();
@@ -140,7 +152,16 @@ public class ImageController {
             alert.showAndWait();
         });
 
-        new Thread(taskManager).start();
+        if(getSelectedFilters().isEmpty()) {
+            pbProgress.setOpacity(0);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No se ha seleccionado ningún filtro");
+            alert.showAndWait();
+
+        } else{
+            new Thread(taskManager).start();
+        }
 
 
     }

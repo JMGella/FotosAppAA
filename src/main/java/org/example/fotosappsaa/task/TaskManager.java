@@ -19,8 +19,6 @@ public class TaskManager extends Task<BufferedImage> {
     private List<String> selectedFilters;
 
 
-
-
     public TaskManager(BufferedImage image, List<String> selectedFilters) {
         this.image = image;
         this.selectedFilters = selectedFilters;
@@ -28,13 +26,12 @@ public class TaskManager extends Task<BufferedImage> {
     }
 
 
-
-
     @Override
     protected BufferedImage call() throws Exception {
         if (image == null) {
             throw new IllegalArgumentException("No se ha proporcionado ninguna imagen para procesar.");
         }
+        BufferedImage imagebackup = image;
         int totalProcessedPixels = 0;
         updateMessage("Aplicando filtro...");
         int imageSize = image.getHeight() * image.getWidth();
@@ -57,23 +54,21 @@ public class TaskManager extends Task<BufferedImage> {
                     }
                 }
                 if (color != null) {
-                    image.setRGB(x, y, color.getRGB());
+                        image.setRGB(x, y, color.getRGB());
+                }
+                    totalProcessedPixels++;
+                }
 
-                    }
-                totalProcessedPixels++;
+                updateProgress(totalProcessedPixels, imageSize);
+
             }
 
-            updateProgress(totalProcessedPixels, imageSize);
+
+            updateMessage("Filtro aplicado");
+
+
+            return image;
 
         }
 
-
-        updateMessage("Filtro aplicado");
-
-        return image;
     }
-
-
-
-
-}
