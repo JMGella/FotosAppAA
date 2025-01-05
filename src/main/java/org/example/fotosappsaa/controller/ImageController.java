@@ -128,13 +128,13 @@ public class ImageController {
             Image processedImage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
             ivProcessed.setImage(processedImage);
             pbProgress.progressProperty().unbind();
-            pbProgress.setProgress(0);
+            pbProgress.setOpacity(0);
             LocalDateTime timestamp = LocalDateTime.now();
             LogEntry logEntry = new LogEntry( filename, getSelectedFilters(), timestamp.toString());
             LogManager.getInstance().addLogEntry(logEntry);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Procesado");
-            alert.setHeaderText("Imagen procesada con éxito");
+            alert.setHeaderText("Imagen " + filename + " procesada con éxito");
             alert.showAndWait();
         });
 
