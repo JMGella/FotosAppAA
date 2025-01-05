@@ -63,7 +63,7 @@ public class ImageController {
 
     private String filename="";
 
-    private List<LogEntry> logEntries = new ArrayList<>();
+    private boolean isCancelled = false;
 
 
 
@@ -74,13 +74,18 @@ public class ImageController {
     }
 
     public void setImage(BufferedImage image) {
+        if (isCancelled) {
+            isCancelled = false;
+            return;
+        }
         this.image = image;
         Image originalimage;
         if (proceesedBufferedImage != null) {
              originalimage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
         } else {
-             originalimage = SwingFXUtils.toFXImage(image, null);
+            originalimage = SwingFXUtils.toFXImage(image, null);
         }
+
         ivOriginal.setImage(originalimage);
         pbProgress.setOpacity(0);
         Path path = Paths.get(savingPath);
@@ -220,6 +225,7 @@ public class ImageController {
             alert.setTitle("Cancelado");
             alert.setHeaderText("Se ha cancelado el proceso.");
             alert.showAndWait();
+            isCancelled = true;
         }
     }
 

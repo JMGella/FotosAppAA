@@ -31,7 +31,7 @@ public class TaskManager extends Task<BufferedImage> {
         if (image == null) {
             throw new IllegalArgumentException("No se ha proporcionado ninguna imagen para procesar.");
         }
-        BufferedImage imagebackup = image;
+
         int totalProcessedPixels = 0;
         updateMessage("Aplicando filtro...");
         int imageSize = image.getHeight() * image.getWidth();
