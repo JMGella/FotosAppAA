@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fotosappsaa.controller.LogController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fotosappsaa.controller.LogController">
    <children>
-      <TableView fx:id="tvLog" prefHeight="624.0" prefWidth="900.0">
-        <columns>
-          <TableColumn fx:id="tcImage" prefWidth="190.0" text="Imagen" />
-            <TableColumn fx:id="tcFilters" prefWidth="315.0" text="Filtros aplicados" />
-            <TableColumn fx:id="tcTimestamp" prefWidth="211.0" text="Fecha y hora" />
-        </columns>
-      </TableView>
+      <TextArea fx:id="txArea" prefHeight="672.0" prefWidth="900.0" />
    </children>
 </VBox>

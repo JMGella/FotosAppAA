@@ -1,19 +1,18 @@
 package org.example.fotosappsaa.controller;
 
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.example.fotosappsaa.log.LogEntry;
-import org.example.fotosappsaa.log.LogManager;
 import org.example.fotosappsaa.task.TaskManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -65,6 +63,7 @@ public class ImageController {
 
     private boolean isCancelled = false;
 
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(ImageController.class);
 
 
 
@@ -129,13 +128,15 @@ public class ImageController {
             ivProcessed.setImage(processedImage);
             pbProgress.progressProperty().unbind();
             pbProgress.setOpacity(0);
-            LocalDateTime timestamp = LocalDateTime.now();
-            LogEntry logEntry = new LogEntry( filename, getSelectedFilters(), timestamp.toString());
-            LogManager.getInstance().addLogEntry(logEntry);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Procesado");
             alert.setHeaderText("Imagen " + filename + " procesada con éxito");
             alert.showAndWait();
+            String filters = "";
+           for (String filter : getSelectedFilters()){
+               filters = filters + filter + " ";
+           }
+           logger.info("Imagen " + filename + " procesada con éxito. Filtros aplicados: " + filters);
         });
 
         taskManager.setOnCancelled(event -> {
@@ -143,6 +144,7 @@ public class ImageController {
             lbStatus.setText("Proceso cancelado");
             pbProgress.progressProperty().unbind();
             pbProgress.setProgress(0);
+            logger.warn("Proceso de la imagen " + filename + " cancelado.");
 
         }
         );
@@ -155,6 +157,7 @@ public class ImageController {
             alert.setTitle("Error");
             alert.setHeaderText("Error al procesar la imagen.");
             alert.showAndWait();
+            logger.error("Error al procesar la imagen " + filename + ".");
         });
 
         if(getSelectedFilters().isEmpty()) {
@@ -178,6 +181,7 @@ public class ImageController {
                 String newfilename = uuid.toString();
                 File file = new File(savingPath +  newfilename + "_modificada.jpg");
                 ImageIO.write(proceesedBufferedImage, "jpg", file);
+                logger.info("Imagen " + filename + " guardada con éxito en " + savingPath + newfilename + "_modificada.jpg");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error al guardar la imagen");
@@ -186,7 +190,7 @@ public class ImageController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No guardado");
             alert.setHeaderText("No se ha generado ninguna imagen nueva para guardar");
-            alert.showAndWait();
+            alert.showAndWait();;
         }
     }
 
@@ -199,6 +203,7 @@ public class ImageController {
         }
         savingPath = selectedFolder.getAbsolutePath();
         txPath.setText(savingPath.substring(savingPath.lastIndexOf("\\") + 1));
+        logger.info("Carpeta de guardado seleccionada: " + savingPath);
     }
 
     public void start(ActionEvent actionEvent) throws Exception {

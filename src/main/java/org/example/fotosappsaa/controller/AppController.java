@@ -1,22 +1,17 @@
 package org.example.fotosappsaa.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
-import javafx.event.ActionEvent;
-import org.example.fotosappsaa.log.LogEntry;
-import org.example.fotosappsaa.log.LogManager;
-
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,12 +30,9 @@ public class AppController {
     private LogController logController;
 
 
-
     public AppController() {
 
     }
-
-
 
 
     @FXML
@@ -151,6 +143,7 @@ public class AppController {
     public void openLog() throws IOException {
 
         if (!logIsOpen) {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/fotosappsaa/log.fxml"));
             Tab logTab = new Tab("Log");
             VBox content = loader.load();
@@ -174,7 +167,8 @@ public class AppController {
 
 
 
-    }
+
+}
 
 
 
