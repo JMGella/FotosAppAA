@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.example.fotosappsaa.task.TaskManager;
+import org.example.fotosappsaa.task.ServiceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +57,9 @@ public class ImageController {
 
     private String savingPath = "C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS/";
 
-    private TaskManager taskManager;
+
+
+    private ServiceManager serviceManager;
 
     private String filename="";
 
@@ -116,14 +118,14 @@ public class ImageController {
     private void sendSelection() throws Exception {
 
             setImage(image);
-            taskManager = new TaskManager(image, getSelectedFilters());
+            serviceManager = new ServiceManager(image, getSelectedFilters());
             pbProgress.setOpacity(100);
-            pbProgress.progressProperty().bind(taskManager.progressProperty());
-            lbStatus.textProperty().bind(taskManager.messageProperty());
+            pbProgress.progressProperty().bind(serviceManager.progressProperty());
+            lbStatus.textProperty().bind(serviceManager.messageProperty());
 
 
-        taskManager.setOnSucceeded(event -> {
-            proceesedBufferedImage = taskManager.getValue();
+        serviceManager.setOnSucceeded(event -> {
+            proceesedBufferedImage = serviceManager.getValue();
             Image processedImage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
             ivProcessed.setImage(processedImage);
             pbProgress.progressProperty().unbind();
@@ -139,7 +141,7 @@ public class ImageController {
            logger.info("Imagen " + filename + " procesada con éxito. Filtros aplicados: " + filters);
         });
 
-        taskManager.setOnCancelled(event -> {
+        serviceManager.setOnCancelled(event -> {
             lbStatus.textProperty().unbind();
             lbStatus.setText("Proceso cancelado");
             pbProgress.progressProperty().unbind();
@@ -149,7 +151,7 @@ public class ImageController {
         }
         );
 
-        taskManager.setOnFailed(event -> {
+        serviceManager.setOnFailed(event -> {
             lbStatus.setText("Error al procesar la imagen.");
             pbProgress.progressProperty().unbind();
             pbProgress.setProgress(0);
@@ -160,6 +162,16 @@ public class ImageController {
             logger.error("Error al procesar la imagen " + filename + ".");
         });
 
+        serviceManager.setOnScheduled(event -> {
+            lbStatus.textProperty().unbind();
+            lbStatus.setText("Imagen en cola...");
+
+        });
+
+        serviceManager.setOnRunning(event -> {
+            lbStatus.textProperty().bind(serviceManager.messageProperty());
+        });
+
         if(getSelectedFilters().isEmpty()) {
             pbProgress.setOpacity(0);
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -168,7 +180,7 @@ public class ImageController {
             alert.showAndWait();
 
         } else{
-            new Thread(taskManager).start();
+            serviceManager.start();
         }
 
 
@@ -220,8 +232,8 @@ public class ImageController {
 
 
     public void cancelTask(ActionEvent actionEvent) {
-        if(taskManager != null) {
-            taskManager.cancel();
+        if(serviceManager != null) {
+            serviceManager.cancel();
             lbStatus.textProperty().unbind();
             lbStatus.setText("Proceso cancelado");
             pbProgress.progressProperty().unbind();

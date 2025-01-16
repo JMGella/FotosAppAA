@@ -2,3 +2,23 @@
 17:51:46.664 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen NBX_Snapshot_2024-01-24_10-28-31-823.png guardada con éxito en C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS/6f240f35-d32d-4c38-bf3c-153959bdca76_modificada.jpg
 19:34:14.277 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen NBX_Snapshot_2024-01-24_10-28-31-823.png procesada con éxito. Filtros aplicados: BRIGHT 
 19:35:40.334 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen NBX_Snapshot_2024-01-24_10-28-31-823.png procesada con éxito. Filtros aplicados: BRIGHT 
+19:54:41.528 [JavaFX Application Thread] WARN  org.example.fotosappsaa.controller.ImageController - Proceso de la imagen NBX_Snapshot_2024-01-24_10-28-31-823.png cancelado.
+19:55:36.405 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen calamar-juego-kpYC--1248x698@abc.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:55:37.111 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen f.elconfidencial.com_original_cff_223_3ae_cff2233aebb9af88415ba983f593a388.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:55:42.863 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen el-juego-del-calamar.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:55:47.434 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen ca-times.brightspotcdn.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:56:03.313 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen calamar-juego-kpYC--1248x698@abc.jpg procesada con éxito. Filtros aplicados: GREYSCALE BRIGHT INVERTED 
+19:56:03.867 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen f.elconfidencial.com_original_cff_223_3ae_cff2233aebb9af88415ba983f593a388.jpg procesada con éxito. Filtros aplicados: GREYSCALE BRIGHT INVERTED 
+19:56:06.941 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen calamar-juego-kpYC--1248x698@abc.jpg procesada con éxito. Filtros aplicados: GREYSCALE BRIGHT INVERTED 
+19:56:49.457 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen f.elconfidencial.com_original_cff_223_3ae_cff2233aebb9af88415ba983f593a388.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:56:57.520 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen el-juego-del-calamar.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:56:57.838 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen calamar-juego-kpYC--1248x698@abc.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:57:57.705 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen ca-times.brightspotcdn.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+19:58:53.563 [JavaFX Application Thread] WARN  org.example.fotosappsaa.controller.ImageController - Proceso de la imagen calamar-juego-kpYC--1248x698@abc.jpg cancelado.
+19:58:58.389 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen f.elconfidencial.com_original_cff_223_3ae_cff2233aebb9af88415ba983f593a388.jpg procesada con éxito. Filtros aplicados: GREYSCALE 
+20:01:56.137 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen f.elconfidencial.com_original_cff_223_3ae_cff2233aebb9af88415ba983f593a388.jpg procesada con éxito. Filtros aplicados: INVERTED 
+20:02:03.623 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen el-juego-del-calamar.jpg procesada con éxito. Filtros aplicados: BRIGHT 
+20:02:03.979 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen calamar-juego-kpYC--1248x698@abc.jpg procesada con éxito. Filtros aplicados: BRIGHT 
+20:02:49.450 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen f.elconfidencial.com_original_cff_223_3ae_cff2233aebb9af88415ba983f593a388.jpg procesada con éxito. Filtros aplicados: INVERTED 
+20:02:56.806 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen el-juego-del-calamar.jpg procesada con éxito. Filtros aplicados: BRIGHT 
+20:02:57.336 [JavaFX Application Thread] INFO  org.example.fotosappsaa.controller.ImageController - Imagen calamar-juego-kpYC--1248x698@abc.jpg procesada con éxito. Filtros aplicados: INVERTED 

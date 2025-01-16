@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.example.fotosappsaa.task.ServiceManager;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -163,6 +164,10 @@ public class AppController {
                 logController.updateLog();
             }
         }
+    }
+
+    public void shutdown() {
+        ServiceManager.shutdownExecutor();
     }
 
 
