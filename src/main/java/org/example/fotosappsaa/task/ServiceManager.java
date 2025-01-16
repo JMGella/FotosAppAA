@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 public class ServiceManager extends Service<BufferedImage> {
@@ -20,13 +19,17 @@ public class ServiceManager extends Service<BufferedImage> {
 
     private BufferedImage image;
     private List<String> selectedFilters;
+    private ExecutorService executor;
 
-    private static final ExecutorService executor = Executors.newFixedThreadPool(2);
+
+
+
 
     public ServiceManager(BufferedImage image, List<String> selectedFilters) {
         this.image = image;
         this.selectedFilters = selectedFilters;
-        setExecutor(executor);
+
+
     }
 
 
@@ -81,8 +84,23 @@ public class ServiceManager extends Service<BufferedImage> {
 
 
     }
- public static void shutdownExecutor() {
-        executor.shutdown();
+    public void setExecutor(ExecutorService executor) {
+        this.executor = executor;
+        super.setExecutor(executor);
     }
+    @Override
+    public void start() {
+        if (executor != null) {
+            setExecutor(executor);
+        }
+        super.start();
+    }
+
+
+
+
+
+
+
 
 }

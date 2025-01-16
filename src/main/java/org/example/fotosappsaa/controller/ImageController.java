@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 
 
 public class ImageController {
@@ -66,6 +67,9 @@ public class ImageController {
     private boolean isCancelled = false;
 
     private static final Logger logger = (Logger) LoggerFactory.getLogger(ImageController.class);
+
+    private ExecutorService executor;
+
 
 
 
@@ -115,6 +119,10 @@ public class ImageController {
         return selectedOptions;
     }
 
+    public void setExecutor(ExecutorService executor) {
+        this.executor = executor;
+    }
+
     private void sendSelection() throws Exception {
 
             setImage(image);
@@ -122,6 +130,8 @@ public class ImageController {
             pbProgress.setOpacity(100);
             pbProgress.progressProperty().bind(serviceManager.progressProperty());
             lbStatus.textProperty().bind(serviceManager.messageProperty());
+            serviceManager.setExecutor(executor);
+
 
 
         serviceManager.setOnSucceeded(event -> {
@@ -171,6 +181,8 @@ public class ImageController {
         serviceManager.setOnRunning(event -> {
             lbStatus.textProperty().bind(serviceManager.messageProperty());
         });
+
+
 
         if(getSelectedFilters().isEmpty()) {
             pbProgress.setOpacity(0);
@@ -250,6 +262,7 @@ public class ImageController {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
 
 
 
