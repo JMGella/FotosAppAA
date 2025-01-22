@@ -1,27 +1,28 @@
 package org.example.fotosappsaa.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
-import javafx.event.ActionEvent;
-import org.example.fotosappsaa.log.LogEntry;
-import org.example.fotosappsaa.log.LogManager;
-
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 public class AppController {
@@ -34,13 +35,19 @@ public class AppController {
     private boolean logIsOpen;
     private LogController logController;
 
+    @FXML
+    private Text txThreadNumber;
+
+    @FXML
+    private Slider slider;
+    private ThreadPoolExecutor executor = new ThreadPoolExecutor(10,10,60L, TimeUnit.SECONDS,new LinkedBlockingQueue<>());
+
+
 
 
     public AppController() {
 
     }
-
-
 
 
     @FXML
@@ -137,6 +144,7 @@ public class AppController {
         } else {
             ImageController controller = loader.getController();
             controller.setImage(image);
+            controller.setExecutor(executor);
 
 
             Tab newTab = new Tab(filename);
@@ -151,6 +159,7 @@ public class AppController {
     public void openLog() throws IOException {
 
         if (!logIsOpen) {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/fotosappsaa/log.fxml"));
             Tab logTab = new Tab("Log");
             VBox content = loader.load();
@@ -173,8 +182,40 @@ public class AppController {
     }
 
 
+ public void setThreadNumber(int threadNumber){
+     if (threadNumber > executor.getMaximumPoolSize()) {
+         executor.setMaximumPoolSize(threadNumber);
+     }
+     executor.setCorePoolSize(threadNumber);
+     if (threadNumber < executor.getMaximumPoolSize()) {
+         executor.setMaximumPoolSize(threadNumber);
+     }
+
+     executor.prestartAllCoreThreads();
 
     }
+
+
+    public ExecutorService getExecutor() {
+        return executor;
+    }
+    @FXML
+    public void sendThreadNumber(ActionEvent actionEvent) {
+
+        int threadNumber = (int) slider.getValue();
+        setThreadNumber(threadNumber);
+        txThreadNumber.setText(String.valueOf(threadNumber));
+
+
+    }
+
+ }
+
+
+
+
+
+
 
 
 

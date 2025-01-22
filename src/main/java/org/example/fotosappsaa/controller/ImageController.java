@@ -1,19 +1,18 @@
 package org.example.fotosappsaa.controller;
 
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.example.fotosappsaa.log.LogEntry;
-import org.example.fotosappsaa.log.LogManager;
-import org.example.fotosappsaa.task.TaskManager;
+import org.example.fotosappsaa.task.ServiceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,10 +20,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
 
 
 public class ImageController {
@@ -59,11 +58,17 @@ public class ImageController {
 
     private String savingPath = "C:/Users/javie/IdeaProjects/FotosAppsAA/FOTOS PROCESADAS/";
 
-    private TaskManager taskManager;
+
+
+    private ServiceManager serviceManager;
 
     private String filename="";
 
     private boolean isCancelled = false;
+
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(ImageController.class);
+
+    private ExecutorService executor;
 
 
 
@@ -114,40 +119,49 @@ public class ImageController {
         return selectedOptions;
     }
 
+    public void setExecutor(ExecutorService executor) {
+        this.executor = executor;
+    }
+
     private void sendSelection() throws Exception {
 
             setImage(image);
-            taskManager = new TaskManager(image, getSelectedFilters());
+            serviceManager = new ServiceManager(image, getSelectedFilters());
             pbProgress.setOpacity(100);
-            pbProgress.progressProperty().bind(taskManager.progressProperty());
-            lbStatus.textProperty().bind(taskManager.messageProperty());
+            pbProgress.progressProperty().bind(serviceManager.progressProperty());
+            lbStatus.textProperty().bind(serviceManager.messageProperty());
+            serviceManager.setExecutor(executor);
 
 
-        taskManager.setOnSucceeded(event -> {
-            proceesedBufferedImage = taskManager.getValue();
+
+        serviceManager.setOnSucceeded(event -> {
+            proceesedBufferedImage = serviceManager.getValue();
             Image processedImage = SwingFXUtils.toFXImage(proceesedBufferedImage, null);
             ivProcessed.setImage(processedImage);
             pbProgress.progressProperty().unbind();
             pbProgress.setOpacity(0);
-            LocalDateTime timestamp = LocalDateTime.now();
-            LogEntry logEntry = new LogEntry( filename, getSelectedFilters(), timestamp.toString());
-            LogManager.getInstance().addLogEntry(logEntry);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Procesado");
             alert.setHeaderText("Imagen " + filename + " procesada con éxito");
             alert.showAndWait();
+            String filters = "";
+           for (String filter : getSelectedFilters()){
+               filters = filters + filter + " ";
+           }
+           logger.info("Imagen " + filename + " procesada con éxito. Filtros aplicados: " + filters);
         });
 
-        taskManager.setOnCancelled(event -> {
+        serviceManager.setOnCancelled(event -> {
             lbStatus.textProperty().unbind();
             lbStatus.setText("Proceso cancelado");
             pbProgress.progressProperty().unbind();
             pbProgress.setProgress(0);
+            logger.warn("Proceso de la imagen " + filename + " cancelado.");
 
         }
         );
 
-        taskManager.setOnFailed(event -> {
+        serviceManager.setOnFailed(event -> {
             lbStatus.setText("Error al procesar la imagen.");
             pbProgress.progressProperty().unbind();
             pbProgress.setProgress(0);
@@ -155,7 +169,20 @@ public class ImageController {
             alert.setTitle("Error");
             alert.setHeaderText("Error al procesar la imagen.");
             alert.showAndWait();
+            logger.error("Error al procesar la imagen " + filename + ".");
         });
+
+        serviceManager.setOnScheduled(event -> {
+            lbStatus.textProperty().unbind();
+            lbStatus.setText("Imagen en cola...");
+
+        });
+
+        serviceManager.setOnRunning(event -> {
+            lbStatus.textProperty().bind(serviceManager.messageProperty());
+        });
+
+
 
         if(getSelectedFilters().isEmpty()) {
             pbProgress.setOpacity(0);
@@ -165,7 +192,7 @@ public class ImageController {
             alert.showAndWait();
 
         } else{
-            new Thread(taskManager).start();
+            serviceManager.start();
         }
 
 
@@ -178,6 +205,7 @@ public class ImageController {
                 String newfilename = uuid.toString();
                 File file = new File(savingPath +  newfilename + "_modificada.jpg");
                 ImageIO.write(proceesedBufferedImage, "jpg", file);
+                logger.info("Imagen " + filename + " guardada con éxito en " + savingPath + newfilename + "_modificada.jpg");
             } catch (IOException e) {
                 e.printStackTrace();
                 System.out.println("Error al guardar la imagen");
@@ -186,7 +214,7 @@ public class ImageController {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No guardado");
             alert.setHeaderText("No se ha generado ninguna imagen nueva para guardar");
-            alert.showAndWait();
+            alert.showAndWait();;
         }
     }
 
@@ -199,6 +227,7 @@ public class ImageController {
         }
         savingPath = selectedFolder.getAbsolutePath();
         txPath.setText(savingPath.substring(savingPath.lastIndexOf("\\") + 1));
+        logger.info("Carpeta de guardado seleccionada: " + savingPath);
     }
 
     public void start(ActionEvent actionEvent) throws Exception {
@@ -215,8 +244,8 @@ public class ImageController {
 
 
     public void cancelTask(ActionEvent actionEvent) {
-        if(taskManager != null) {
-            taskManager.cancel();
+        if(serviceManager != null) {
+            serviceManager.cancel();
             lbStatus.textProperty().unbind();
             lbStatus.setText("Proceso cancelado");
             pbProgress.progressProperty().unbind();
@@ -233,6 +262,7 @@ public class ImageController {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
 
 
 

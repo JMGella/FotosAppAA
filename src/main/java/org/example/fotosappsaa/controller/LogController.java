@@ -1,30 +1,18 @@
 package org.example.fotosappsaa.controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import org.example.fotosappsaa.log.LogEntry;
-import org.example.fotosappsaa.log.LogManager;
+import javafx.scene.control.TextArea;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class LogController {
 
     @FXML
-    private TableView<LogEntry> tvLog;
-    @FXML
-    private TableColumn<LogEntry, String> tcImage;
-    @FXML
-    private TableColumn<LogEntry, String> tcFilters;
-    @FXML
-    private TableColumn<LogEntry, String> tcTimestamp;
+    private TextArea txArea;
 
-    private ObservableList<LogEntry> logEntries = FXCollections.observableArrayList();
 
 
 
@@ -34,27 +22,31 @@ public class LogController {
 
 @FXML
     public void initialize(){
-        LogManager logManager = LogManager.getInstance();
-        logEntries.addAll(logManager.getLogEntries());
-        tvLog.setItems(logEntries);
-        for (LogEntry logEntry : logEntries) {
-            tcImage.setCellValueFactory(new PropertyValueFactory<>("inputFilename"));
-            tcFilters.setCellValueFactory(new PropertyValueFactory<>("filters"));
-            tcTimestamp.setCellValueFactory(new PropertyValueFactory<>("timestamp"));
+        updateLog();
+
+    }
+
+    public void updateLog() {
+        txArea.clear();
+        File logsFile = new File("./filters.log");
+        try (BufferedReader reader = new BufferedReader(new FileReader(logsFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                txArea.setText(txArea.getText() + line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void updateLog(){
-       LogManager logManager = LogManager.getInstance();
-       logEntries.setAll(logManager.getLogEntries());
-        tvLog.refresh();
+
     }
 
 
 
 
 
-}
+
 
 
 
